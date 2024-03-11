@@ -1,7 +1,23 @@
-export function HomePage() {
+import { createResource, JSXElement, ParentProps } from 'solid-js';
+import { Card, CardContent, CardHeader } from '~/components/ui/card';
+import { fetchDay, fetchWeek } from '~/lib/api';
+import { useParams } from '@solidjs/router';
+
+export default function HomePage(props: ParentProps): JSXElement {
+    const params = useParams();
+    const [week] = createResource(params.day, fetchWeek);
+    const [data] = createResource(params.day, fetchDay);
+
     return (
         <div>
-            <h1>Home</h1>
+            <Card>
+                <CardHeader>
+                    <h1>{data()}</h1>
+                </CardHeader>
+                <CardContent>
+                    {props.children}
+                </CardContent>
+            </Card>
         </div>
     )
 }
