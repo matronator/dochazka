@@ -16,3 +16,28 @@ export function getWeek(date: Date): Date[] {
     return dates;
 }
 
+export function getPreviousWeek(date: Date): Date[] {
+    const start = new Date(date);
+    start.setDate(date.getDate() - 7);
+    return getWeek(start);
+}
+
+export function getNextWeek(date: Date): Date[] {
+    const start = new Date(date);
+    start.setDate(date.getDate() + 7);
+    return getWeek(start);
+}
+
+export function toShortISOString(date: Date): string {
+    return date.toISOString().substring(0, 10);
+}
+
+declare global {
+    interface Date {
+        toShortISOString(): string;
+    }
+}
+
+Date.prototype.toShortISOString = function() {
+    return toShortISOString(this);
+}
